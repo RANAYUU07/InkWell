@@ -1,6 +1,6 @@
 import express from "express";
-import { createPost } from "../controllers/postController";
-import { protect } from "../middleware/authMiddleware";
+import { approvePost, createPost, deletePost, editPost, getAllPosts, getSinglePost, rejectPost, submitPost } from "../controllers/postController.js";
+import { protect } from "../middleware/authMiddleware.js";
 
 
 // So here's our finalized endpoint list:
@@ -17,8 +17,15 @@ import { protect } from "../middleware/authMiddleware";
 const router = express.Router()
 
 router.post("/", protect, createPost)
+router.put("/:id/submit", protect, submitPost)
+router.put("/:id/reject", protect, rejectPost)
+router.put("/:id/approve", protect, approvePost)
+router.put("/:id", protect, editPost)
+router.get("/", getAllPosts)
+router.get("/:id", getSinglePost)
+router.delete("/:id", protect, deletePost)
 
-
+export default router
 
 
 
