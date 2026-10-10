@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import Comment from "../models/Comments.js";
 import Post from "../models/Posts.js";
 
@@ -68,6 +69,26 @@ export const deleteComment = async (req, res) => {
     await Comment.findByIdAndDelete(commentId);
 
     return res.status(200).json({ message: "Comment deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const getNumberOfCommentsForPosts = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const commentCount = await Comment.aggregate([
+      { $match: { post: new mongoose.Types.ObjectId(id) } },
+      { $count: "totalComments" },
+    ]);
+
+    const totalCommentCount = commentCount[0]?.totalComments || 0;
+
+    return res.status(200).json({
+      message: "fetched total comments successfully",
+      totalCommentCount,
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

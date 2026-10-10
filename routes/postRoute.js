@@ -1,5 +1,5 @@
 import express from "express";
-import { approvePost, createPost, deletePost, editPost, getAllPosts, getSinglePost, rejectPost, submitPost } from "../controllers/postController.js";
+import { approvePost, createPost, deletePost, editPost, getAllPosts, getPostsByCategory, getSinglePost, rejectPost, submitPost } from "../controllers/postController.js";
 import { protect } from "../middleware/authMiddleware.js";
 
 
@@ -21,6 +21,7 @@ router.put("/:id/submit", protect, submitPost)
 router.put("/:id/reject", protect, rejectPost)
 router.put("/:id/approve", protect, approvePost)
 router.put("/:id", protect, editPost)
+router.get("/stats/categories", getPostsByCategory)
 router.get("/", getAllPosts)
 router.get("/:id", getSinglePost)
 router.delete("/:id", protect, deletePost)

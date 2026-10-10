@@ -308,6 +308,40 @@ export const deletePost = async (req, res) => {
   }
 };
 
+export const getPostsByCategory = async (req, res) => {
+  try {
+   
+    const stats = await Post.aggregate([
+      {$match: {status: "published"}}, // we are only categorising posts that are published
+      {$group: {_id: "$category", totalPosts: {$sum: 1}} }, // we are grouping them on categories so a new id is created solely for categories by the mongdb, the totalPost number increases when it finds teh post with a category id accordingly
+      {
+        $lookup: {
+        from: "categories",
+        localField: "_id",
+        foreignField: "_id",
+        as: "categoryInfo"
+      },
+    }, // this is how you populate in aggregators since poplation work with find().
+    {$unwind: "$categoryInfo"},
+    {
+      $project: {
+        _id: 0,
+        category: "$categoryInfo.name",
+        totalPosts: 1
+      } // this is what we are gonna show in the frontend
+    }
+    ])
+
+    return res.status(200).json({
+      message: "categories numbered",
+      stats
+    })
+
+  } catch (error) {
+    res.status(500).json({message: error.message})
+  }
+}
+
 // Quick recap of the four status codes we've now used, to lock this in:
 
 // 404 — resource doesn't exist

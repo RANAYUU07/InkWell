@@ -4,6 +4,7 @@ import userAuthRoutes from "./routes/userAuth.js";
 import postRoutes from "./routes/postRoute.js"
 import commentRoute from "./routes/commentRoute.js"
 import likeRoute from "./routes/likeRoute.js"
+import categoryRoute from "./routes/categoryRoute.js"
 
 connectDB();
 
@@ -16,6 +17,7 @@ app.use("/api/auth", userAuthRoutes)
 app.use("/api/posts", postRoutes)
 app.use("/api/comments", commentRoute)
 app.use("/api/likes", likeRoute)
+app.use("/api/catergories", categoryRoute)
 
 
 app.listen(port, () => {
