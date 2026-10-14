@@ -29,7 +29,7 @@ export const createComment = async (req, res) => {
       comment,
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    next(error);
   }
 };
 
@@ -47,7 +47,7 @@ export const getCommentsForPost = async (req, res) => {
       comments,
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    next(error);
   }
 };
 
@@ -70,7 +70,7 @@ export const deleteComment = async (req, res) => {
 
     return res.status(200).json({ message: "Comment deleted successfully" });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    next(error);
   }
 };
 
@@ -90,6 +90,6 @@ export const getNumberOfCommentsForPosts = async (req, res) => {
       totalCommentCount,
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    next(error);
   }
 };

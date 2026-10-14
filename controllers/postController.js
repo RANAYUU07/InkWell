@@ -9,11 +9,14 @@ export const createPost = async (req, res) => {
   try {
     const { title, content, category } = req.body;
 
+    const coverImage = req.file ? '/uploads/${req.file.filename}' : undefined;
+
     const post = await Post.create({
       title,
       content,
       category,
       author: req.user.id,
+      coverImage
     });
 
     return res.status(201).json({
@@ -28,7 +31,7 @@ export const createPost = async (req, res) => {
       },
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    next(error);
   }
 };
 
@@ -70,6 +73,11 @@ export const editPost = async (req, res) => {
     post.content = content || post.content;
     post.category = category || post.category;
 
+    if (req.file) {
+      post.coverImage = `/uploads/${req.file.filename}`;
+    }
+
+
     await post.save();
 
     return res.status(200).json({
@@ -77,7 +85,7 @@ export const editPost = async (req, res) => {
       post,
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    next(error);
   }
 };
 
@@ -120,7 +128,7 @@ export const submitPost = async (req, res) => {
       post,
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    next(error);
   }
 };
 
@@ -165,7 +173,7 @@ export const approvePost = async (req, res) => {
       post,
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    next(error);
   }
 };
 
@@ -210,7 +218,7 @@ export const rejectPost = async (req, res) => {
       post,
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    next(error);
   }
 };
 
@@ -233,7 +241,7 @@ export const getAllPosts = async (req, res) => {
       post,
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    next(error);
   }
 };
 
@@ -258,7 +266,7 @@ export const getSinglePost = async (req, res) => {
       post,
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    next(error);
   }
 };
 
@@ -304,7 +312,7 @@ export const deletePost = async (req, res) => {
 
     return res.status(200).json({ message: "Post deleted successfully" });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    next(error);
   }
 };
 
@@ -338,7 +346,7 @@ export const getPostsByCategory = async (req, res) => {
     })
 
   } catch (error) {
-    res.status(500).json({message: error.message})
+    next(error);
   }
 }
 

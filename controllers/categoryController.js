@@ -31,7 +31,7 @@ export const createCategory = async (req, res) => {
     })
     
   } catch (error) {
-    res.status(500).json({message: error.message})
+    next(error);
   }
 } 
 
@@ -46,6 +46,6 @@ export const listAllCategory = async (req, res) => {
     })
 
   } catch (error) {
-    res.status(500).json({message: error.message})
+    next(error);
   }
 }

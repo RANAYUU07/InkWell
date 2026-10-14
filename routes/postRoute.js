@@ -1,7 +1,17 @@
 import express from "express";
-import { approvePost, createPost, deletePost, editPost, getAllPosts, getPostsByCategory, getSinglePost, rejectPost, submitPost } from "../controllers/postController.js";
-import { protect } from "../middleware/authMiddleware.js";
-
+import {
+  approvePost,
+  createPost,
+  deletePost,
+  editPost,
+  getAllPosts,
+  getPostsByCategory,
+  getSinglePost,
+  rejectPost,
+  submitPost,
+} from "../controllers/postController.js";
+import { protect, upload } from "../middleware/authMiddleware.js";
+import { postValidator, validate } from "../middleware/validators.js";
 
 // So here's our finalized endpoint list:
 
@@ -14,20 +24,16 @@ import { protect } from "../middleware/authMiddleware.js";
 //7. GET /api/posts/:id — View single post (public if published)
 //8. DELETE /api/posts/:id — Delete (Author if draft+own, OR Editor if published)
 
-const router = express.Router()
+const router = express.Router();
 
-router.post("/", protect, createPost)
-router.put("/:id/submit", protect, submitPost)
-router.put("/:id/reject", protect, rejectPost)
-router.put("/:id/approve", protect, approvePost)
-router.put("/:id", protect, editPost)
-router.get("/stats/categories", getPostsByCategory)
-router.get("/", getAllPosts)
-router.get("/:id", getSinglePost)
-router.delete("/:id", protect, deletePost)
+router.post("/", protect, upload.single("coverImage"), postValidator, validate, createPost);
+router.put("/:id/submit", protect, submitPost);
+router.put("/:id/reject", protect, rejectPost);
+router.put("/:id/approve", protect, approvePost);
+router.put("/:id", protect, upload.single("coverImage"), editPost);
+router.get("/stats/categories", getPostsByCategory);
+router.get("/", getAllPosts);
+router.get("/:id", getSinglePost);
+router.delete("/:id", protect, deletePost);
 
-export default router
-
-
-
-
+export default router;

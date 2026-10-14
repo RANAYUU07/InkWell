@@ -26,7 +26,7 @@ export const toggleLike = async (req, res) => {
       return res.status(201).json({ message: "Post liked", like });
     }
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    next(error);
   }
 };
 
@@ -49,6 +49,6 @@ export const getNumberOfLikesForPost = async (req, res) => {
       totalLikesCount,
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    next(error);
   }
 };
