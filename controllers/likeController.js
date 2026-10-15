@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
-import Like from "../models/Likes.js";
+import Like from "../models/Like.js";
 import Post from "../models/Posts.js";
 
-export const toggleLike = async (req, res) => {
+export const toggleLike = async (req, res, next) => {
   try {
     const { id } = req.params;
 
@@ -30,7 +30,7 @@ export const toggleLike = async (req, res) => {
   }
 };
 
-export const getNumberOfLikesForPost = async (req, res) => {
+export const getNumberOfLikesForPost = async (req, res, next) => {
   try {
     const { id } = req.params;
 

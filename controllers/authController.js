@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import User from "../models/User.js";
 import jwt from "jsonwebtoken"
 
-export const signUp = async (req, res) => {
+export const signUp = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
 
@@ -24,7 +24,7 @@ export const signUp = async (req, res) => {
     }); // in the schema we have a password field
 
     return res.status(201).json({
-      message: "User creater successfully",
+      message: "User created successfully",
       user: {
         id: newUser._id,
         name: newUser.name,
@@ -36,7 +36,7 @@ export const signUp = async (req, res) => {
   }
 };
 
-export const login = async (req, res) => {
+export const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
@@ -64,7 +64,7 @@ export const login = async (req, res) => {
     }); // the jwt format is (payload, secret, options) the payload and options both expect an object
 
     return res.status(200).json({
-      message: "Login soccessful",
+      message: "Login successful",
       token,
       user: {
         id: existingUser._id,

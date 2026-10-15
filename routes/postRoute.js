@@ -10,7 +10,8 @@ import {
   rejectPost,
   submitPost,
 } from "../controllers/postController.js";
-import { protect, upload } from "../middleware/authMiddleware.js";
+import { protect } from "../middleware/authMiddleware.js";
+import upload from "../middleware/uploads.js";
 import { postValidator, validate } from "../middleware/validators.js";
 
 // So here's our finalized endpoint list:

@@ -5,11 +5,11 @@ import User from "../models/User.js";
 
 // creating a post
 
-export const createPost = async (req, res) => {
+export const createPost = async (req, res, next) => {
   try {
     const { title, content, category } = req.body;
 
-    const coverImage = req.file ? '/uploads/${req.file.filename}' : undefined;
+    const coverImage = req.file ? `/uploads/${req.file.filename}` : undefined;
 
     const post = await Post.create({
       title,
@@ -48,7 +48,7 @@ Send back the response
 
 */
 
-export const editPost = async (req, res) => {
+export const editPost = async (req, res, next) => {
   try {
     const { id } = req.params;
     const { title, content, category } = req.body;
@@ -102,7 +102,7 @@ Save and respond
 
 */
 
-export const submitPost = async (req, res) => {
+export const submitPost = async (req, res, next) => {
   try {
     const { id } = req.params;
 
@@ -146,7 +146,7 @@ Save and respond
 
 */
 
-export const approvePost = async (req, res) => {
+export const approvePost = async (req, res, next) => {
   try {
     const { id } = req.params;
 
@@ -191,7 +191,7 @@ Save and respond
 
 */
 
-export const rejectPost = async (req, res) => {
+export const rejectPost = async (req, res, next) => {
   try {
     const { id } = req.params;
 
@@ -200,7 +200,7 @@ export const rejectPost = async (req, res) => {
       return res.status(404).json({ message: "post does not exist" });
     }
 
-    const user = await User.findbyId(req.user.id);
+    const user = await User.findById(req.user.id);
     if (user.role !== "editor") {
       return res.status(403).json({ message: "User not authorized" });
     }
@@ -214,7 +214,7 @@ export const rejectPost = async (req, res) => {
     await post.save();
 
     return res.status(200).json({
-      message: "post is publishes successfully",
+      message: "post rejected successfully",
       post,
     });
   } catch (error) {
@@ -229,7 +229,7 @@ Fetch all posts where status is "published"
 Send back the response
 */
 
-export const getAllPosts = async (req, res) => {
+export const getAllPosts = async (req, res, next) => {
   try {
     const post = await Post.find({ status: "published" }).populate(
       "author",
@@ -247,7 +247,7 @@ export const getAllPosts = async (req, res) => {
 
 // getting a single post
 
-export const getSinglePost = async (req, res) => {
+export const getSinglePost = async (req, res, next) => {
   try {
     const { id } = req.params;
 
@@ -285,7 +285,7 @@ Send response
 
 */
 
-export const deletePost = async (req, res) => {
+export const deletePost = async (req, res, next) => {
   try {
     const { id } = req.params;
 
@@ -316,7 +316,7 @@ export const deletePost = async (req, res) => {
   }
 };
 
-export const getPostsByCategory = async (req, res) => {
+export const getPostsByCategory = async (req, res, next) => {
   try {
    
     const stats = await Post.aggregate([

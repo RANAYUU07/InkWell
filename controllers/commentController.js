@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import Comment from "../models/Comments.js";
 import Post from "../models/Posts.js";
 
-export const createComment = async (req, res) => {
+export const createComment = async (req, res, next) => {
   try {
     const { id } = req.params; // post id
     const { content } = req.body;
@@ -33,7 +33,7 @@ export const createComment = async (req, res) => {
   }
 };
 
-export const getCommentsForPost = async (req, res) => {
+export const getCommentsForPost = async (req, res, next) => {
   try {
     const { id } = req.params;
 
@@ -51,7 +51,7 @@ export const getCommentsForPost = async (req, res) => {
   }
 };
 
-export const deleteComment = async (req, res) => {
+export const deleteComment = async (req, res, next) => {
   try {
     const { commentId } = req.params;
 
@@ -74,7 +74,7 @@ export const deleteComment = async (req, res) => {
   }
 };
 
-export const getNumberOfCommentsForPosts = async (req, res) => {
+export const getNumberOfCommentsForPosts = async (req, res, next) => {
   try {
     const { id } = req.params;
 

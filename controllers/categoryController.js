@@ -10,7 +10,7 @@
 import Category from "../models/Category.js";
 import User from "../models/User.js";
 
-export const createCategory = async (req, res) => {
+export const createCategory = async (req, res, next) => {
   try {
 
     const {name} = req.body
@@ -35,7 +35,7 @@ export const createCategory = async (req, res) => {
   }
 } 
 
-export const listAllCategory = async (req, res) => {
+export const listAllCategory = async (req, res, next) => {
   try {
 
     const allCategory = await Category.find({})
